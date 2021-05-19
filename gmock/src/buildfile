@@ -15,6 +15,7 @@ cxx.poptions =+ "-I$out_pfx_src" "-I$src_pfx_src" \
 
 lib{gmock}: $pub/{$pub_hdrs}
 lib{gmock}: cxx{gmock-all} $intf_libs
+lib{gmock}: cxx{* -gmock-all -gmock_main}: include = false
 lib{gmock}:
 {
   cxx.export.poptions += "-I$out_pfx_inc" "-I$src_pfx_inc"

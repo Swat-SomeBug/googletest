@@ -38,6 +38,7 @@ liba{gtest_main} : lib{gtest} # Implicitly required to avoid problems with linki
 objs{*} : cxx.poptions += "-DGTEST_CREATE_SHARED_LIBRARY=1"
 lib{gtest}: cxx.export.poptions += "-I$out_pfx_inc" "-I$src_pfx_inc"
 libs{gtest} : cxx.export.poptions += "-DGTEST_LINKED_AS_SHARED_LIBRARY=1"
+liba{gtest}: cxx.export.poptions += # Required here to ensure liba{gtest} is always available
 
 # Linking libs
 if ($c.target.class != 'windows') # Need pthread on Unix systems
