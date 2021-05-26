@@ -26,20 +26,20 @@ lib{gmock}: $pub/{$pub_hdrs}
 #   objs{gtest}: cxx.poptions += -DGTEST_API_='__declspec(dllexport)'
 # }
 # lib{gmock}: cxx{gmock-all} $impl_libs
-lib{gmock}: obj{gmock-all}
-obj{gmock-all}: cxx{gmock-all}
+lib{gmock}: obj{gmock-all}: cxx{gmock-all}
 objs{gmock-all}: cxx.poptions += -DGTEST_CREATE_SHARED_LIBRARY=1
 # gtest-port is part of gtest which is coupled into gmock
 # Need to ensure to compile this part and not export any symbols from it
 obj{gtest-port}: cxx{gtest-port} h{**}
 objs{gtest-port}: cxx.poptions += -DGTEST_API_=''
-libul{gtest}: obj{gtest-port} $intf_libs
-lib{gmock}: libul{gtest}                        
-lib{gmock}: cxx.export.poptions += $($intf_libs: cxx.export.poptions) \
-                                    "-I$out_pfx_inc" "-I$src_pfx_inc"
+lib{gmock}: libul{gtest}: obj{gtest-port} $intf_libs
+libs{gmock}: cxx.export.libs =+ $intf_libs                                    
 
 liba{gmock_main}: cxx{gmock_main}
 liba{gmock_main}: bin.whole = true
-liba{gmock_main}: cxx.export.libs += lib{gmock}
+liba{gmock_main}: $intf_libs
+# liba{gmock_main}: cxx.export.libs += $intf_libs lib{gmock}
+cxx.export.poptions += $($intf_libs: cxx.export.poptions) \
+                        "-I$out_pfx_inc" "-I$src_pfx_inc"
 
 ./: lib{gmock} liba{gmock_main}

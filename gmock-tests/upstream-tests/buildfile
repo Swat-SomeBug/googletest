@@ -24,7 +24,7 @@ exe{gmock_link_test}: cxx{gmock_link_test gmock_link2_test} hxx{**} \
                       $gmock_lib
 cxx.poptions += "-I$src_base"
 exe{gmock-spec-builders_test}: cxx{gmock-spec-builders_test} hxx{**} $gmock_lib
-exe{$gmock_main_tests}: $gmock_main_lib $gmock_lib $gtest_lib
+exe{$gmock_main_tests}: $gmock_main_lib $gmock_lib
 
 if ($cxx.id == 'msvc')
 {
